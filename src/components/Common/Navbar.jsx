@@ -38,6 +38,7 @@ function Navbar() {
 
   const [subLinks, setSubLinks] = useState([])
   const [loading, setLoading] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -160,9 +161,33 @@ function Navbar() {
           )}
           {token !== null && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
-          <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
-        </button>
+        {/* Mobile Menu */}
+        {token === null && (
+          <button className="mr-4 md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+            <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+          </button>
+        )}
+        {menuOpen && token === null && (
+          <div className="absolute top-10 left-0 w-full bg-richblack-800 mt-2 z-50 md:hidden">
+            <ul className="flex flex-col p-4 md:p-0 items-center font-medium rounded-md bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <li>
+                  <Link to="/about" onClick={() => setMenuOpen(false)}>
+                    <p className="text-richblack-25 mt-1">About Us</p>
+                  </Link>
+                  <Link to="/contact" onClick={() => setMenuOpen(false)}>
+                    <p className="text-richblack-25 mt-1">Contact Us</p>
+                  </Link>
+                  <Link to="/login" onClick={() => setMenuOpen(false)}>
+                    <p className="text-richblack-25 mt-1">Log In</p>
+                  </Link>
+                  <Link to="/signup" onClick={() => setMenuOpen(false)}>
+                    <p className="text-richblack-25 mt-1">Sign Up</p>
+                  </Link>
+                </li>
+            </ul>
+          </div>
+        )}
+        {token !== null && <div className=" md:hidden"><ProfileDropdown /></div>}
       </div>
     </div>
   )
